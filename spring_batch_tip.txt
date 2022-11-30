@@ -15,3 +15,53 @@ JobParameters는 아래 예제코드처럼 @Value를 통해서 가능합니다. 
                .writer(inactiveUserWriter())
                .build();
  }
+
+
+[출처] https://velog.io/@developerjun0615/Spring-RequiredArgsConstructor-%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98%EC%9D%84-%EC%82%AC%EC%9A%A9%ED%95%9C-%EC%83%9D%EC%84%B1%EC%9E%90-%EC%A3%BC%EC%9E%85
+@RequiredArgsConstructor 어노테이션을 사용한 생성자 주입 방법
+생성자주입의 단점은 위의 Constructor(생성자) 코드처럼 생성자를 만들기 번거롭다는 것이다. 하지만 이를 보완하기위해 롬복을 사용하여 간단한 방법으로 생성자 주입 방식의 코딩을 할 수 있다.
+
+@RequiredArgsConstructor
+final이 붙거나 @NotNull 이 붙은 필드의 생성자를 자동 생성해주는 롬복 어노테이션
+
+필드 주입방식을 사용한 기존 Service
+
+@Service
+    public class BannerServiceImpl implements BannerService {
+    
+        @Autowired
+        private BannerRepository bannerRepository;
+    
+        @Autowired
+        private CommonFileUtils commonFileUtils;
+@RequiredArgsConstructor 를 활용한 생성자 주입
+
+    @Service
+    @RequiredArgsConstructor
+    public class BannerServiceImpl implements BannerService {
+    
+        private final BannerRepository bannerRepository;
+    
+        private final CommonFileUtils commonFileUtils;
+        ...
+@RequiredArgsConstructor를 사용하지 않으면 원래는 이렇게 생성자 주입을 해야한다
+
+    @Service
+    public class BannerServiceImpl implements BannerService {
+    
+        private BannerRepository bannerRepository;
+    
+        private CommonFileUtils commonFileUtils;
+    
+        @Autowired
+        public BannerServiceImpl(BannerRepository bannerRepository, CommonFileUtils commonFileUtils) {
+            this.bannerRepository = bannerRepository;
+            this.commonFileUtils = commonFileUtils;
+        }
+        ...
+
+
+[출처] https://galid1.tistory.com/494
+@Component는 개발자가 직접 작성한 class를 Bean으로 만드는 것이고,
+@Bean은 개발자가 작성한 메서드를 통해 반환되는 객체를 Bean으로 만드는것.
+(@Bean어노테이션은 개발자가 직접제어불가한 외부라이브러리를 Bean으로 만들혀고할때 사용)
