@@ -1,0 +1,17 @@
+[출처] https://velog.io/@sa1341/JobScope%EC%99%80-StepScope
+1. JobParameters 사용 시 주의사항
+JobParameters는 아래 예제코드처럼 @Value를 통해서 가능합니다. JobPameters는 Step이나 Tasklet, Reader 등 배치 컴포넌트 Bean의 생성 시점에 호출할 수 있습니다. 정확하게 말해서 Scope Bean을 생성할때만 가능합니다.
+
+즉, @StepScope, @JobScope Bean을 생성할 때만 JobParameters가 생성되기 때문에 사용할 수 있습니다.
+
+ @Bean
+ @JobScope
+ public Step inactiveJobStep(@Value("#{jobParameters[requestDate]}") final String requestDate) {
+       log.info("requestDate: {}", requestDate);
+       return stepBuilderFactory.get("inactiveUserStep")
+               .<User, User>chunk(10)
+               .reader(inactiveUserReader())
+               .processor(inactiveUserProcessor())
+               .writer(inactiveUserWriter())
+               .build();
+ }
