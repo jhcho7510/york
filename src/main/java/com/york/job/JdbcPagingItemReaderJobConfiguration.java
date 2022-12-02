@@ -20,6 +20,9 @@ import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * [출처] https://jojoldu.tistory.com/339?category=902551
+ */
 @Slf4j
 @RequiredArgsConstructor // 생성자 DI를 위한 lombok 어노테이션
 @Configuration
