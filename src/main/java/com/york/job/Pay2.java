@@ -16,7 +16,7 @@ import java.time.format.DateTimeFormatter;
 @NoArgsConstructor
 @Entity
 public class Pay2 {
-    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss");
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,10 +25,11 @@ public class Pay2 {
     private String txName;
     private LocalDateTime txDateTime;
 
-    public Pay2(Long amount, String txName, String txDateTime) {
+    public Pay2(Long amount, String txName, LocalDateTime txDateTime) {
+        System.out.println("1.txDateTime : " + txDateTime);
         this.amount = amount;
         this.txName = txName;
-        this.txDateTime = LocalDateTime.parse(txDateTime, FORMATTER);
+        this.txDateTime = LocalDateTime.parse(FORMATTER.format(txDateTime), FORMATTER); // String formatTxDateTime = FORMATTER.format(txDateTime);
     }
 
     public Pay2(Long id, Long amount, String txName, String txDateTime) {

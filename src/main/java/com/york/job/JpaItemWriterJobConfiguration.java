@@ -14,6 +14,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import javax.persistence.EntityManagerFactory;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
 /**
@@ -59,9 +61,9 @@ public class JpaItemWriterJobConfiguration {
 
     @Bean
     public ItemProcessor<Pay, Pay2> jpaItemProcessor() {
-        return pay -> new Pay2(pay.getAmount(), pay.getTxName(), (pay.getTxDateTime().toString()).substring(0,10));
+        return pay -> new Pay2(pay.getAmount(), pay.getTxName(), pay.getTxDateTime());
     }
-
+// pay.getTxDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss"))
     @Bean
     public JpaItemWriter<Pay2> jpaItemWriter() {
         JpaItemWriter<Pay2> jpaItemWriter = new JpaItemWriter<>();
